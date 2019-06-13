@@ -1,4 +1,4 @@
-package Domain;
+package domain.base;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

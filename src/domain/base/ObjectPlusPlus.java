@@ -1,4 +1,4 @@
-package Domain;
+package domain.base;
 
 import java.io.PrintStream;
 import java.io.Serializable;
@@ -35,22 +35,22 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
         addLink(roleName, reverseRoleName, targetObject, qualifier, 2);
     }
 
-    protected void addLink(String roleName, String reverseRoleName, ObjectPlusPlus targetObject) {
+    public void addLink(String roleName, String reverseRoleName, ObjectPlusPlus targetObject) {
         addLink(roleName, reverseRoleName, targetObject, targetObject);
     }
 
-    protected void addPart(String roleName, String reverseRoleName, ObjectPlusPlus partObject) throws Exception {
+    public void addPart(String roleName, String reverseRoleName, ObjectPlusPlus partObject) {
         if (allParts.contains(partObject)) {
-            throw new Exception("The part is already connected to a whole!");
+            throw new DomainException("The part is already connected to a whole!");
         }
         addLink(roleName, reverseRoleName, partObject);
         allParts.add(partObject);
     }
 
-    public ObjectPlusPlus[] getLinks(String roleName) throws RuntimeException {
+    public ObjectPlusPlus[] getLinks(String roleName) {
         Map<Object, ObjectPlusPlus> objectLinks;
         if (!links.containsKey(roleName)) {
-            throw new RuntimeException("No links for the role: " + roleName);
+            throw new DomainException("No links for the role: " + roleName);
         }
         objectLinks = links.get(roleName);
         return (ObjectPlusPlus[]) objectLinks.values().toArray(new ObjectPlusPlus[0]);
@@ -60,10 +60,10 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
         return !links.containsKey(roleName);
     }
 
-    public void showLinks(String roleName, PrintStream stream) throws RuntimeException {
+    public void showLinks(String roleName, PrintStream stream) {
         Map<Object, ObjectPlusPlus> objectLinks;
         if (!links.containsKey(roleName)) {
-            throw new RuntimeException("No links for the role: " + roleName);
+            throw new DomainException("No links for the role: " + roleName);
         }
         objectLinks = links.get(roleName);
         Collection<ObjectPlusPlus> col = objectLinks.values();
@@ -73,14 +73,14 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
         }
     }
 
-    public ObjectPlusPlus getLinkedObject(String roleName, Object qualifier) throws Exception {
+    public ObjectPlusPlus getLinkedObject(String roleName, Object qualifier) {
         Map<Object, ObjectPlusPlus> objectLinks;
         if (!links.containsKey(roleName)) {
-            throw new Exception("No links for the role: " + roleName);
+            throw new DomainException("No links for the role: " + roleName);
         }
         objectLinks = links.get(roleName);
         if (!objectLinks.containsKey(qualifier)) {
-            throw new Exception("No link for the qualifer: " + qualifier);
+            throw new DomainException("No link for the qualifer: " + qualifier);
         }
         return objectLinks.get(qualifier);
     }

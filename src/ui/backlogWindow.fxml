@@ -2,8 +2,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<GridPane fx:controller="UI.backlogWindowController"
+<GridPane fx:controller="ui.backlogWindowController"
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="200" prefWidth="320"
           alignment="center" hgap="10" vgap="10">
