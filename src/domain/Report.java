@@ -7,7 +7,7 @@ public class Report extends ObjectPlusPlus {
     private String name;
     private String urlToLocation;
 
-    protected Report(String name, String urlToLocation) {
+    public Report(String name, String urlToLocation) {
         this.name = name;
         this.urlToLocation = urlToLocation;
     }
@@ -28,7 +28,7 @@ public class Report extends ObjectPlusPlus {
         this.urlToLocation = urlToLocation;
     }
 
-    protected void connectToProject(Project project, String qualifier) {
+    public void connectToProject(Project project, String qualifier) {
         if (!this.objectHasNoLinks(LinksMetadata.PROJECT_REPORT.roleName)) {
             System.out.println("This report is already connected to other project");
         }

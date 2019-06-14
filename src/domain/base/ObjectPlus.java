@@ -1,4 +1,5 @@
 package domain.base;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -27,12 +28,14 @@ public class ObjectPlus {
     public static void writeExtents(ObjectOutputStream stream) throws IOException {
         stream.writeObject(allExtents);
     }
+
     public static void readExtents(ObjectInputStream stream) throws IOException, ClassNotFoundException {
         Object readObject = stream.readObject();
         if(!(readObject instanceof Map)) {
             throw new IOException("Unexpected object type: " + readObject.getClass().getName());
         }
-        allExtents = (Map<Class, List<ObjectPlus>>) stream.readObject();
+        allExtents = (Map<Class, List<ObjectPlus>>) readObject;
+
     }
 
     public void destroyObject(){

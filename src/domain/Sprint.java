@@ -2,8 +2,11 @@ package domain;
 
 import domain.base.DomainException;
 import domain.base.ObjectPlusPlus;
+import domain.metadata.LinksMetadata;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Sprint extends ObjectPlusPlus {
 
@@ -68,6 +71,11 @@ public class Sprint extends ObjectPlusPlus {
 
     public void add(Task task) {
         task.implementedDuring(this);
+    }
+
+    public List<SprintTask> getSprintTasks() {
+        return getLinkedObjects(LinksMetadata.SPRINT_TASK.roleName)
+                .stream().map(t -> (SprintTask) t).collect(Collectors.toList());
     }
 
     @Override

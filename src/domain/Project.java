@@ -4,6 +4,8 @@ import domain.base.ObjectPlusPlus;
 import domain.metadata.LinksMetadata;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Project extends ObjectPlusPlus {
 
@@ -13,17 +15,33 @@ public class Project extends ObjectPlusPlus {
         this.name = name;
     }
 
-    protected void addReport(Report report, String qualifier) {
+    public static Project getProject(String name) {
+        return allExtents.get(Project.class)
+                .stream().map(obj -> (Project) obj)
+                .filter(project -> project.getName().equals(name))
+                .collect(Collectors.toList()).get(0);
+    }
+
+    public void addReport(Report report, String qualifier) {
         report.connectToProject(this, qualifier);
     }
 
-    protected Report getReport(String name) throws Exception {
+    public Report getReport(String name) throws Exception {
         return (Report) this.getLinkedObject(LinksMetadata.PROJECT_REPORT.roleName, name);
     }
 
-    public void addSprint(String name, LocalDate start, int durationWeeks) {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Sprint addSprint(String name, LocalDate start, int durationWeeks) {
         Sprint sprint = Sprint.registerSprint(name, start, durationWeeks);
         this.addPart(LinksMetadata.PROJECT_SPRINT.roleName, LinksMetadata.PROJECT_SPRINT.reverseRoleName, sprint);
+        return sprint;
     }
 
     @Override
@@ -31,5 +49,24 @@ public class Project extends ObjectPlusPlus {
         return "Project{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    public List<SprintTask> getSprintTasks() {
+        //TODO
+        Sprint activeSprint = getActiveSprint();
+        return activeSprint.getSprintTasks();
+
+    }
+
+    private Sprint getActiveSprint() {
+        List<Sprint> sprints = getLinkedObjects(LinksMetadata.PROJECT_SPRINT.roleName).stream().map(t -> (Sprint) t).collect(Collectors.toList());
+        Sprint activeSprint = null;
+        for (Sprint sprint : sprints) {
+            if (sprint.getStart().isBefore(LocalDate.now()) &&
+                    sprint.getStart().plusWeeks(sprint.getDurationWeeks()).isAfter(LocalDate.now())) {
+                activeSprint = sprint;
+            }
+        }
+        return activeSprint;
     }
 }

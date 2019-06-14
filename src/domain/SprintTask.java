@@ -3,11 +3,11 @@ package domain;
 public class SprintTask extends Task {
 
     public SprintTask(Task task) {
-        super(task.getTitle(), task.getPriority(), task.getDescription(), task.getType());
+        super(task.getTitle(), task.getPriority(), task.getType());
     }
 
-    public SprintTask(String title, Priority priority, String description, TaskType type) {
-        super(title, priority, description, type);
+    public SprintTask(String title, Priority priority, TaskType type) {
+        super(title, priority, type);
     }
 
     @Override

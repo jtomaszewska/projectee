@@ -1,4 +1,5 @@
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
@@ -40,7 +41,11 @@
                     <children>
                         <TableView fx:id="sprint">
                             <columns>
-                                <TableColumn fx:id="sprintTasksColumn" text="Sprint"/>
+                                <TableColumn fx:id="sprintTasksColumn" text="Sprint">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="title"/>
+                                    </cellValueFactory>
+                                </TableColumn>
                             </columns>
                         </TableView>
                     </children>

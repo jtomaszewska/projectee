@@ -73,6 +73,18 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
         }
     }
 
+    public List<ObjectPlusPlus> getLinkedObjects(String roleName) {
+        List<ObjectPlusPlus> linkedObjects = new ArrayList<>();
+        Map<Object, ObjectPlusPlus> objectLinks;
+        if (!links.containsKey(roleName)) {
+            throw new DomainException("No links for the role: " + roleName);
+        }
+        objectLinks = links.get(roleName);
+        Collection<ObjectPlusPlus> col = objectLinks.values();
+        linkedObjects.addAll(col);
+        return linkedObjects;
+    }
+
     public ObjectPlusPlus getLinkedObject(String roleName, Object qualifier) {
         Map<Object, ObjectPlusPlus> objectLinks;
         if (!links.containsKey(roleName)) {

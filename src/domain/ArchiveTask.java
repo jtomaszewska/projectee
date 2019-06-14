@@ -3,7 +3,7 @@ package domain;
 public class ArchiveTask extends Task {
 
     public ArchiveTask(Task task) {
-        super(task.getTitle(), task.getPriority(), task.getDescription(), task.getType());
+        super(task.getTitle(), task.getPriority(), task.getType());
         if (task.getStatus() != Status.closed) {
             System.out.println("Task should be closed before archive");
         }

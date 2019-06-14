@@ -1,6 +1,7 @@
 package domain;
 
 import domain.base.DomainException;
+import domain.base.ObjectPlus;
 import domain.base.ObjectPlusPlus;
 import domain.metadata.LinksMetadata;
 
@@ -21,26 +22,27 @@ public abstract class Task extends ObjectPlusPlus implements Serializable {
     private int storyPoints;
 
     public Task(String title, Priority priority,
-                String description, TaskType taskType) {
+                TaskType taskType) {
         super();
         this.title = title;
         this.type = taskType;
         this.status = Status.created;
         this.priority = priority;
-        this.description = description;
         this.createDate = LocalDateTime.now();
         this.startDate = null;
         this.endDate = null;
     }
 
-    public static List<Task> getTasks(Status status) {
-        List<Task> allTasks = getTasks();
+    public static <T extends Task> List<T> getTasks(Status status, Class<T> taskClass) {
+        List<T> allTasks = getTasks(taskClass).stream().map(obj -> (T) obj).collect(Collectors.toList());
         return allTasks.stream().filter(t -> t.getStatus().equals(status)).collect(Collectors.toList());
     }
 
-    public static List<Task> getTasks() {
-        return allExtents.get(Task.class).stream().map(obj -> (Task) obj)
-                .collect(Collectors.toList());
+    public static <T extends Task> List<T> getTasks(Class<T> taskClass) {
+        List<ObjectPlus> tasks = allExtents.get(taskClass);
+        return tasks.stream().map(obj -> (T) obj).collect(Collectors.toList());
+//                allExtents.get(taskClass.getClass()).stream().map(obj -> (T) obj)
+//                .collect(Collectors.toList());
     }
 
     public int getStoryPoints() {
@@ -128,11 +130,12 @@ public abstract class Task extends ObjectPlusPlus implements Serializable {
 
     public void implementedDuring(Sprint sprint) {
         if (!this.objectHasNoLinks(LinksMetadata.TASK_SPRINT.roleName)) {
-            System.out.println("This task is already connected to other user");
+            System.out.println("This task is already connected to other Sprint");
         }
-        if (this.getClass().equals(LinksMetadata.SPRINT_TASK.targetObjectClass) &&
-                this.getClass().equals(LinksMetadata.SPRINT_TASK.objectClass)) {
-            this.addLink(LinksMetadata.SPRINT_TASK.roleName, LinksMetadata.SPRINT_TASK.reverseRoleName, this);
+        if (this.getClass().getSuperclass().equals(LinksMetadata.SPRINT_TASK.targetObjectClass) &&
+                sprint.getClass().equals(LinksMetadata.SPRINT_TASK.objectClass)) {
+//            this.addPart(LinksMetadata.TASK_SPRINT.roleName, LinksMetadata.TASK_SPRINT.reverseRoleName, sprint);
+            sprint.addLink(LinksMetadata.TASK_SPRINT.reverseRoleName, LinksMetadata.TASK_SPRINT.roleName, this);
         } else {
             throw new DomainException("Can't link this objects");
         }

@@ -1,8 +1,8 @@
 package domain;
 
 public class BacklogTask extends Task {
-    public BacklogTask(String title, Priority priority, String description, TaskType type) {
-        super(title, priority, description, type);
+    public BacklogTask(String title, Priority priority, TaskType type) {
+        super(title, priority, type);
         this.setStatus(Status.created);
     }
 

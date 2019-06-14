@@ -8,7 +8,7 @@ public class Team extends ObjectPlusPlus {
 
     private String name;
 
-    protected Team(String name) {
+    public Team(String name) {
         this.name = name;
     }
 
@@ -20,7 +20,7 @@ public class Team extends ObjectPlusPlus {
         this.name = name;
     }
 
-    protected void addMember(Employee employee, TimePeriod timePeriod) {
+    public void addMember(Employee employee, TimePeriod timePeriod) {
         new TeamEmployee(this, employee, timePeriod);
     }
 
