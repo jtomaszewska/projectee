@@ -20,6 +20,7 @@ public abstract class Task extends ObjectPlusPlus implements Serializable {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private int storyPoints;
+    private String environment;
 
     public Task(String title, Priority priority,
                 TaskType taskType) {
@@ -29,8 +30,6 @@ public abstract class Task extends ObjectPlusPlus implements Serializable {
         this.status = Status.created;
         this.priority = priority;
         this.createDate = LocalDateTime.now();
-        this.startDate = null;
-        this.endDate = null;
     }
 
     public static <T extends Task> List<T> getTasks(Status status, Class<T> taskClass) {
@@ -41,8 +40,14 @@ public abstract class Task extends ObjectPlusPlus implements Serializable {
     public static <T extends Task> List<T> getTasks(Class<T> taskClass) {
         List<ObjectPlus> tasks = allExtents.get(taskClass);
         return tasks.stream().map(obj -> (T) obj).collect(Collectors.toList());
-//                allExtents.get(taskClass.getClass()).stream().map(obj -> (T) obj)
-//                .collect(Collectors.toList());
+    }
+
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
     }
 
     public int getStoryPoints() {
