@@ -10,9 +10,11 @@ import java.util.stream.Collectors;
 public class Project extends ObjectPlusPlus {
 
     private String name;
+    private Sprint backlog;
 
     public Project(String name) {
         this.name = name;
+        this.backlog = this.addSprint("Backlog", LocalDate.of(2000, 01, 01), 1);
     }
 
     public static Project getProject(String name) {
@@ -20,6 +22,10 @@ public class Project extends ObjectPlusPlus {
                 .stream().map(obj -> (Project) obj)
                 .filter(project -> project.getName().equals(name))
                 .collect(Collectors.toList()).get(0);
+    }
+
+    public Sprint getBacklog() {
+        return backlog;
     }
 
     public void addReport(Report report, String qualifier) {
@@ -52,10 +58,13 @@ public class Project extends ObjectPlusPlus {
     }
 
     public List<SprintTask> getSprintTasks() {
-        //TODO
         Sprint activeSprint = getActiveSprint();
         return activeSprint.getSprintTasks();
+    }
 
+    public List<BacklogTask> getBacklogTasks() {
+        Sprint backlog = this.getBacklog();
+        return backlog.getBacklogTasks();
     }
 
     private Sprint getActiveSprint() {

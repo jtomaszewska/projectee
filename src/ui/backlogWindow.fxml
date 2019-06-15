@@ -1,6 +1,5 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <GridPane fx:controller="ui.backlogWindowController"
@@ -20,18 +19,14 @@
     </rowConstraints>
     <children>
         <HBox spacing="5" alignment="CENTER_LEFT"  GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="12">
-            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="https://drive.google.com/open?id=1AIAyp9QamPCH9uzwQ7o4UtU7X-Hx5yr5" />
-                </image>
-            </ImageView>
+            <ImageView fx:id="rocket" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
             <Button mnemonicParsing="false" id="projectsButton" text="Projects"/>
             <Button mnemonicParsing="false" id="tasksButton"  text="Tasks" />
             <Button mnemonicParsing="false" id="usersButton"  text="Users" />
         </HBox>
         <HBox alignment="CENTER_RIGHT"  GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.columnSpan="1">
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1"/>
+            <ComboBox fx:id="userActions" prefWidth="150.0" GridPane.columnIndex="1"/>
         </HBox>
         <Label text="Backlog" GridPane.rowIndex="1" />
         <Button contentDisplay="CENTER" mnemonicParsing="false" text="Create" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="BOTTOM_RIGHT"/>
@@ -58,7 +53,11 @@
                     <children>
                         <TableView fx:id="backlog">
                             <columns>
-                                <TableColumn fx:id="backlogTasksColumn" text="Backlog"/>
+                                <TableColumn fx:id="backlogTasksColumn" text="Backlog">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="title"/>
+                                    </cellValueFactory>
+                                </TableColumn>
                             </columns>
                         </TableView>
                     </children>

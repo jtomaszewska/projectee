@@ -52,6 +52,14 @@ public class Main {
 
         sprint1.showLinks(LinksMetadata.SPRINT_TASK.roleName, System.out);
 
+        Sprint backlog = masProject.getBacklog();
+        backlog.add(task421);
+        backlog.add(task422);
+        backlog.add(task423);
+        backlog.add(task424);
+        backlog.add(task425);
+        backlog.add(task426);
+        backlog.add(task427);
         System.out.println("LOL");
 //        masProject.getBacklogTasks();
 

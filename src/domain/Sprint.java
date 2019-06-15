@@ -86,4 +86,9 @@ public class Sprint extends ObjectPlusPlus {
                 ", durationWeeks=" + durationWeeks +
                 '}';
     }
+
+    public List<BacklogTask> getBacklogTasks() {
+        return getLinkedObjects(LinksMetadata.SPRINT_TASK.roleName)
+                .stream().map(t -> (BacklogTask) t).collect(Collectors.toList());
+    }
 }
