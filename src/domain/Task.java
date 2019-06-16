@@ -42,6 +42,7 @@ public abstract class Task extends ObjectPlusPlus implements Serializable {
         return tasks.stream().map(obj -> (T) obj).collect(Collectors.toList());
     }
 
+
     public String getEnvironment() {
         return environment;
     }
@@ -130,6 +131,11 @@ public abstract class Task extends ObjectPlusPlus implements Serializable {
         employee.assignTask(this);
     }
 
+    public Employee getOwner() {
+        return getLinkedObjects(LinksMetadata.TASK_EMPLOYEE.reverseRoleName)
+                .stream().map(t -> (Employee) t).collect(Collectors.toList()).get(0);
+    }
+
     public void changeStatus(Status status) {
     }
 
@@ -139,10 +145,21 @@ public abstract class Task extends ObjectPlusPlus implements Serializable {
         }
         if (this.getClass().getSuperclass().equals(LinksMetadata.SPRINT_TASK.targetObjectClass) &&
                 sprint.getClass().equals(LinksMetadata.SPRINT_TASK.objectClass)) {
-//            this.addPart(LinksMetadata.TASK_SPRINT.roleName, LinksMetadata.TASK_SPRINT.reverseRoleName, sprint);
             sprint.addLink(LinksMetadata.TASK_SPRINT.reverseRoleName, LinksMetadata.TASK_SPRINT.roleName, this);
         } else {
             throw new DomainException("Can't link this objects");
         }
+    }
+
+    public List<Sprint> getSprint() {
+        return getLinkedObjects(LinksMetadata.SPRINT_TASK.reverseRoleName)
+                .stream().map(t -> (Sprint) t).collect(Collectors.toList());
+    }
+
+    public List<Employee> getAvailableEmployees() {
+        Sprint sprint = this.getSprint().get(0);
+
+        Project project = sprint.getProject();
+        return project.getProjectEmployees();
     }
 }

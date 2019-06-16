@@ -11,12 +11,10 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-
 //        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("objects.txt"));
 //        ObjectPlus.readExtents(objectInputStream);
 //        System.out.println("before: ");
 //        ObjectPlus.logExtents();
-
 
         Project masProject = new Project("MAS Project");
         SprintTask task191 = new SprintTask("Wymagania użytkownika", Priority.critical, TaskType.feature);
@@ -60,7 +58,30 @@ public class Main {
         backlog.add(task425);
         backlog.add(task426);
         backlog.add(task427);
-        System.out.println("LOL");
+
+
+        Employee emp1 = new Employee("Anna", "Złotopolska", "azlotopolska@gmail.com");
+        Employee emp2 = new Employee("Jan", "Kowalski", "jkowalski@gmail.com");
+        Employee emp3 = new Employee("Karolina", "Poniatowska", "kponiatowska@gmail.com");
+        Employee emp4 = new Employee("Ignacy", "Tuwim", "ituwim@gmail.com");
+
+        Team t1 = new Team("Team 1");
+        Team t2 = new Team("Team 2");
+
+        TimePeriod period = new TimePeriod(LocalDate.of(2000, 01, 19), LocalDate.of(2020, 01, 01));
+        t1.addMember(emp1, period);
+        t1.addMember(emp2, period);
+        t2.addMember(emp3, period);
+        t2.addMember(emp4, period);
+
+        masProject.createdBy(t1);
+        t1.assignTo(masProject);
+
+        List<Employee> employeesToLink = task194.getAvailableEmployees();
+
+
+        System.out.println("aaa");
+
 //        masProject.getBacklogTasks();
 
 //        String user1Email1 = "azlotopolska@gmail.com";

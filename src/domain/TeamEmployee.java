@@ -3,6 +3,9 @@ package domain;
 import domain.base.ObjectPlusPlus;
 import domain.metadata.LinksMetadata;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class TeamEmployee extends ObjectPlusPlus {
 
     private TimePeriod timePeriod;
@@ -51,4 +54,7 @@ public class TeamEmployee extends ObjectPlusPlus {
         return objectsToReturn.toString();
     }
 
+    public List<Employee> getAssignedUsers() {
+        return getLinkedObjects(LinksMetadata.TEAM_EMPLOYEE.roleName).stream().map(t -> (Employee) t).collect(Collectors.toList());
+    }
 }

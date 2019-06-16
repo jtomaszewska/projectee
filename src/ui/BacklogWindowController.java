@@ -8,17 +8,22 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.util.List;
 
-public class backlogWindowController {
+public class BacklogWindowController {
 
+    Task taskToEdit;
     ObservableList sprintTaskObservableList = FXCollections.observableArrayList();
     ObservableList detailsTaskObservableList = FXCollections.observableArrayList();
     @FXML
@@ -35,7 +40,7 @@ public class backlogWindowController {
     private ComboBox userActionsComboBox;
 
 
-    public backlogWindowController() {
+    public BacklogWindowController() {
     }
 
     @FXML
@@ -68,7 +73,9 @@ public class backlogWindowController {
         final Task taskInDetailsView = null;
         sprintTaskListView.getSelectionModel().selectedItemProperty().addListener(observable -> {
             if (sprintTaskListView.getSelectionModel().getSelectedItems().size() > 0) {
-                showSelectedTask((Task) sprintTaskListView.getSelectionModel().getSelectedItems().get(0));
+                taskToEdit = (Task) sprintTaskListView.getSelectionModel().getSelectedItems().get(0);
+                showSelectedTask(taskToEdit);
+                Main.selectedTask = taskToEdit;
             }
         });
 
@@ -85,11 +92,11 @@ public class backlogWindowController {
 
         backlogTaskListView.getSelectionModel().selectedItemProperty().addListener(observable -> {
             if (backlogTaskListView.getSelectionModel().getSelectedItems().size() > 0) {
-                showSelectedTask((Task) backlogTaskListView.getSelectionModel().getSelectedItems().get(0));
+                taskToEdit = (Task) backlogTaskListView.getSelectionModel().getSelectedItems().get(0);
+                showSelectedTask(taskToEdit);
+                Main.selectedTask = taskToEdit;
             }
         });
-
-
     }
 
     public void showSelectedTask(Task chosenTask) {
@@ -108,5 +115,18 @@ public class backlogWindowController {
 
     public String getDisplayValue(Object parameter) {
         return parameter != null ? parameter.toString() : " ";
+    }
+
+    @FXML
+    public void handleEditButtonAction(ActionEvent actionEvent) throws IOException {
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("TaskWindow.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 500);
+
+        Main.stage.setTitle("Task Edit");
+        Main.stage.setScene(scene);
+        Main.stage.show();
+        Main.stage.setMaximized(false);
     }
 }

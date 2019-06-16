@@ -1,7 +1,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<GridPane fx:controller="ui.backlogWindowController"
+<GridPane fx:controller="ui.BacklogWindowController"
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="200" prefWidth="320"
           alignment="center" hgap="10" vgap="10">
@@ -31,6 +31,7 @@
         <Label text="Backlog" GridPane.rowIndex="1"/>
         <Button contentDisplay="CENTER" mnemonicParsing="false" text="Create" GridPane.columnIndex="1"
                 GridPane.rowIndex="1" alignment="BOTTOM_RIGHT"/>
+
         <ScrollPane GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="1" fitToWidth="true">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0">
@@ -61,7 +62,7 @@
             </content>
         </ScrollPane>
         <VBox GridPane.columnIndex="1" GridPane.rowIndex="4" alignment="CENTER_RIGHT">
-            <Button id="editTask" text="Edit"/>
+            <Button id="editTaskButton" onAction="#handleEditButtonAction" text="Edit"/>
         </VBox>
     </children>
 

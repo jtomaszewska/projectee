@@ -13,7 +13,9 @@ public enum LinksMetadata {
     PROJECT_SPRINT(Project.class, Sprint.class, "composed of", "belongs to"),
     SPRINT_PROJECT(Sprint.class, Project.class, "belongs to", "composed of"),
     TASK_SPRINT(Task.class, Sprint.class, "implemented during", "contains"),
-    SPRINT_TASK(Sprint.class, Task.class, "contains", "implemented during");
+    SPRINT_TASK(Sprint.class, Task.class, "contains", "implemented during"),
+    TEAM_PROJECT(Team.class, Project.class, "assign to", "created by"),
+    PROJECT_TEAM(Project.class, Team.class, "created by", "assign to");
 
     public Class objectClass;
     public Class targetObjectClass;

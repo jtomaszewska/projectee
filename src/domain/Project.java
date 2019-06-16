@@ -78,4 +78,16 @@ public class Project extends ObjectPlusPlus {
         }
         return activeSprint;
     }
+
+    public void createdBy(Team team) {
+
+        team.assignTo(this);
+    }
+
+
+    public List<Employee> getProjectEmployees() {
+        Team team = getLinkedObjects(LinksMetadata.PROJECT_TEAM.roleName)
+                .stream().map(t -> (Team) t).collect(Collectors.toList()).get(0);
+        return team.members();
+    }
 }

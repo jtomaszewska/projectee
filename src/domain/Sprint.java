@@ -91,4 +91,9 @@ public class Sprint extends ObjectPlusPlus {
         return getLinkedObjects(LinksMetadata.SPRINT_TASK.roleName)
                 .stream().map(t -> (BacklogTask) t).collect(Collectors.toList());
     }
+
+    public Project getProject() {
+        return getLinkedObjects(LinksMetadata.SPRINT_PROJECT.roleName)
+                .stream().map(t -> (Project) t).collect(Collectors.toList()).get(0);
+    }
 }
