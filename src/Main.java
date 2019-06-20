@@ -17,6 +17,7 @@ public class Main {
 //        ObjectPlus.logExtents();
 
         Project masProject = new Project("MAS Project");
+        Project project2 = new Project("p2");
         SprintTask task191 = new SprintTask("Wymagania użytkownika", Priority.critical, TaskType.feature);
         SprintTask task192 = new SprintTask("Diagram przypadków użycia", Priority.critical, TaskType.feature);
         SprintTask task193 = new SprintTask("Diagram klas – analityczny", Priority.major, TaskType.feature);
@@ -64,86 +65,26 @@ public class Main {
         Employee emp2 = new Employee("Jan", "Kowalski", "jkowalski@gmail.com");
         Employee emp3 = new Employee("Karolina", "Poniatowska", "kponiatowska@gmail.com");
         Employee emp4 = new Employee("Ignacy", "Tuwim", "ituwim@gmail.com");
+        Employee emp5 = new Employee("Janina", "Kowalska", "jkowalska@gmail.com");
 
         Team t1 = new Team("Team 1");
         Team t2 = new Team("Team 2");
+
 
         TimePeriod period = new TimePeriod(LocalDate.of(2000, 01, 19), LocalDate.of(2020, 01, 01));
         t1.addMember(emp1, period);
         t1.addMember(emp2, period);
         t2.addMember(emp3, period);
         t2.addMember(emp4, period);
-
+        t1.addMember(emp5, period);
+        project2.createdBy(t2);
         masProject.createdBy(t1);
         t1.assignTo(masProject);
-
+        task191.assignOwner(emp1);
+        task192.assignOwner(emp2);
+        task193.assignOwner(emp1);
+        task194.assignOwner(emp2);
         List<Employee> employeesToLink = task194.getAvailableEmployees();
-
-
-        System.out.println("aaa");
-
-//        masProject.getBacklogTasks();
-
-//        String user1Email1 = "azlotopolska@gmail.com";
-//        Employee user1 = new Employee("Anna", "Złotopolska", user1Email1);
-//        BacklogTask myTask1 = new BacklogTask("Task 1", Priority.minor, "Some things to do", TaskType.improvement);
-//        SprintTask sprintTask = new SprintTask(myTask1);
-//        sprintTask.changeStatus(Status.in_progress);
-//        List<SprintTask> sprintTasks = Task.getTasks(SprintTask.class);
-//        for (SprintTask task : sprintTasks) {
-//            System.out.println(task + ": " + Status.in_progress.toString());
-//        }
-////        System.out.println(myTask1.getTimeSpent());
-//        BacklogTask task2 = new BacklogTask("Task 2", Priority.critical, "Nanana", TaskType.bug);
-//        BacklogTask task3 = new BacklogTask("Task 3", Priority.major, "Desc 3", TaskType.feature);
-//
-//        //zwykła 1..* User-Task
-//        user1.assignTask(myTask1);
-//        user1.assignTask(task2);
-//        task3.assignOwner(user1);
-//
-//        user1.showLinks(LinksMetadata.EMPLOYEE_TASK.roleName, System.out);
-//        task2.showLinks(LinksMetadata.EMPLOYEE_TASK.reverseRoleName, System.out);
-//
-//        Team team1 = new Team("Team 1");
-//        Team team2 = new Team("Team 2");
-//        Employee user2 = new Employee("Jan", "Studencki", "jstudencki@js.pl");
-//
-//        // Z atrybutem *..* User-Team
-//        TimePeriod timePeriod = new TimePeriod(LocalDate.now(), null);
-//        team1.addMember(user1, timePeriod);
-//        team1.addMember(user2, timePeriod);
-//
-//        user1.addToTeam(team2, timePeriod);
-//
-//        user1.showLinks(LinksMetadata.EMPLOYEE_TEAM.roleName, System.out);
-//        user2.showLinks(LinksMetadata.EMPLOYEE_TEAM.roleName, System.out);
-//        team1.showLinks(LinksMetadata.TEAM_EMPLOYEE.roleName, System.out);
-//        team2.showLinks(LinksMetadata.TEAM_EMPLOYEE.roleName, System.out);
-//
-//        // kwalifikowana 1..* Project-Report qualifier:name
-//        Project project1 = new Project("Project 1");
-//        Report reportFin = new Report("Financial1", "\\\\repots.abc.pl\\project1\\fin1");
-//        Report reportTech = new Report("Technical1", "\\\\repots.abc.pl\\project1\\tech1");
-//
-//        project1.addReport(reportFin, reportFin.getName());
-//        reportTech.connectToProject(project1, reportTech.getName());
-//        Project project2 = new Project("Project 2");
-//        project1.showLinks(LinksMetadata.PROJECT_REPORT.roleName, System.out);
-//        reportFin.showLinks(LinksMetadata.REPORT_PROJECT.roleName, System.out);
-//        reportTech.showLinks(LinksMetadata.REPORT_PROJECT.roleName, System.out);
-//        System.out.println(project1.getReport("Financial1").toString());
-//        System.out.println(project1.getLinkedObject(LinksMetadata.PROJECT_REPORT.roleName, "Financial1"));
-//
-//        //kompozycja Project - Sprint
-//        project1.addSprint("S1", LocalDate.now(), 1);
-//        project1.addSprint("S2", LocalDate.now().plusWeeks(1), 2);
-//        project1.showLinks(LinksMetadata.PROJECT_SPRINT.roleName, System.out);
-//
-//        //sprawdzam czy moge powiązać część z dwoma calościami
-//        Sprint s3 = Sprint.registerSprint("S3", LocalDate.now(), 1);
-//        project2.addPart(LinksMetadata.PROJECT_SPRINT.roleName, LinksMetadata.PROJECT_SPRINT.reverseRoleName, s3);
-//        //project1.addPart(LinksMetadata.PROJECT_SPRINT.roleName, LinksMetadata.PROJECT_SPRINT.reverseRoleName, s3);
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("objects.txt"));
         ObjectPlus.writeExtents(objectOutputStream);

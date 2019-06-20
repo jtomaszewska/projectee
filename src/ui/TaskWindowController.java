@@ -2,6 +2,8 @@ package ui;
 
 import domain.*;
 import domain.base.ObjectPlus;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,15 +14,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class TaskWindowController {
 
     Task task = Main.selectedTask instanceof BacklogTask ? (BacklogTask) Main.selectedTask : (SprintTask) Main.selectedTask;
-
+    ObservableList sprintTaskObservableList = FXCollections.observableArrayList();
     @FXML
     private ImageView rocket;
     @FXML
@@ -48,7 +51,9 @@ public class TaskWindowController {
         List<Employee> employeesToLink = task.getAvailableEmployees();
 
         assignedEmployeeComboBox.getItems().addAll(employeesToLink);
-        assignedEmployeeComboBox.setValue((Employee) task.getOwner());
+        if (task.hasOwner()) {
+            assignedEmployeeComboBox.setValue((Employee) task.getOwner());
+        }
 
         assignedEmployeeComboBox.setCellFactory(lv -> new ListCell<Employee>() {
             @Override
@@ -71,9 +76,14 @@ public class TaskWindowController {
         refreshExtension();
     }
 
-    private void refreshExtension() throws IOException {
+    private void refreshExtension() throws IOException, ClassNotFoundException {
+        Path fileToDeletePath = Paths.get("objects.txt");
+        Files.delete(fileToDeletePath);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("objects.txt"));
         ObjectPlus.writeExtents(objectOutputStream);
+
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("objects.txt"));
+        ObjectPlus.readExtents(objectInputStream);
     }
 
     private void loadBacklogWindow() throws IOException {

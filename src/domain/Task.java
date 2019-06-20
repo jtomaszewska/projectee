@@ -136,6 +136,14 @@ public abstract class Task extends ObjectPlusPlus implements Serializable {
                 .stream().map(t -> (Employee) t).collect(Collectors.toList()).get(0);
     }
 
+    public boolean hasOwner() {
+        boolean value = false;
+        if (getLinkedObjects(LinksMetadata.TASK_EMPLOYEE.reverseRoleName) != null) {
+            value = true;
+        }
+        return value;
+    }
+
     public void changeStatus(Status status) {
     }
 
